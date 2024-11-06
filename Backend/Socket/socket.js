@@ -12,7 +12,11 @@ const io = new Server(server, {
         origin: process.env.URL,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-    }
+    },
+    path: '/socket',
+    transports: ['websocket', 'polling'],
+    wssEngine:['ws','wss'],
+    allowEIO3: true
 })
 
 const userSocketMap = {};//this map stores socket id corresponds to the user id

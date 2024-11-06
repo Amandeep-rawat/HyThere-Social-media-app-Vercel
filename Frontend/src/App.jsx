@@ -40,9 +40,18 @@ const App = () => {
 
     if (user) {
       socketIo = io(import.meta.env.VITE_URL, {
+        path: '/socket',
         query: { userId: user?._id },
-        transports: ['websocket'],
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: 5,
+
+
       });
+       // Handle connection errors
+    socketIo.on('connect_error', (err) => {
+      console.error('Socket connection error:', err);
+    });
       dispatch(setSocket(socketIo));
 
       // Listening to socket events

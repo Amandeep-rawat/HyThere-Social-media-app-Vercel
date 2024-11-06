@@ -39,6 +39,7 @@ const App = () => {
     let socketIo;
 
     if (user) {
+      console.log('backend url',import.meta.env.VITE_URL);
       socketIo = io(import.meta.env.VITE_URL, {
         path: '/socket',
         query: { userId: user?._id },

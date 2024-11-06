@@ -41,126 +41,58 @@ export const register = async (req, res) => {
 }
 
 
-// export const login = async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-//         // console.log(req.body);
-//         if (!email || !password) {
-//             return res.status(400).json({ message: "Something is missing ,please check again ", sucess: false, });
-
-//         };
-//         let user = await User.findOne({ email });
-//         if (!user) {
-//             return res.status(400).json({ message: "User does not exist", sucess: false, });
-
-//         }
-//         const isPasswordMatch = await bcrypt.compare(password, user.password);
-//         if (!isPasswordMatch) {
-//             return res.status(400).json({ message: "Invalid Email or password", sucess: false, });
-//         }
-        
-//         // console.log("setting token ")
-//         const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-//        //populate post here too
-//        const populatedPost=await Promise.all(
-//         user?.posts.map(async(postId)=>{
-//             const getPost=await post.findById(postId)
-//             // sirf logged in user ki post chiye 
-//             if(getPost?.author.equals(user._id)){
-                
-//                 return getPost;
-//             }
-//             return null;
-//         })
-//        )
-//         user={
-//             _id:user._id,
-//             userName:user.userName,
-//             email:user.email,
-//             gender:user.gender,
-//             profilePicture:user.profilePicture,
-//             bio:user.bio,
-//             followers:user.followers,
-//             following:user.following,
-//             posts:populatedPost,
-//             bookmarks:user.bookmarks
-            
-//         }
-//         return res.cookie("token", token, { httpOnly: true, sameSite: 'strict', maxAge: 24 * 60 * 60 * 1000 }).status(200).json({ message: `Welcome ${user.userName}`,user, sucess: true, });
-// // res object pehle se hi Express ke through aata hai aur uske andar bohot saare methods hote hain, jaise res.send(), res.json(), res.status(), aur res.cookie().
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// }
-
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log("Request body:", req.body); // Log the request body
-
+        // console.log(req.body);
         if (!email || !password) {
-            console.log("Email or password missing"); // Log if email or password is missing
-            return res.status(400).json({ message: "Something is missing, please check again", success: false });
-        };
+            return res.status(400).json({ message: "Something is missing ,please check again ", sucess: false, });
 
+        };
         let user = await User.findOne({ email });
         if (!user) {
-            console.log(`User not found with email: ${email}`); // Log if user is not found
-            return res.status(400).json({ message: "User does not exist", success: false });
-        }
+            return res.status(400).json({ message: "User does not exist", sucess: false, });
 
+        }
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
-            console.log("Invalid password for user:", email); // Log if password is incorrect
-            return res.status(400).json({ message: "Invalid Email or password", success: false });
+            return res.status(400).json({ message: "Invalid Email or password", sucess: false, });
         }
-
-        // Log before generating token
-        console.log("Password matched, generating token...");
-
+        
+        // console.log("setting token ")
         const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-
-        // Log before populating posts
-        console.log("Populating user posts...");
-
-        const populatedPost = await Promise.all(
-            user?.posts.map(async (postId) => {
-                const getPost = await post.findById(postId);
-                if (getPost?.author.equals(user._id)) {
-                    console.log(`Post populated for postId: ${postId}`); // Log populated post
-                    return getPost;
-                }
-                return null;
-            })
-        );
-
-        user = {
-            _id: user._id,
-            userName: user.userName,
-            email: user.email,
-            gender: user.gender,
-            profilePicture: user.profilePicture,
-            bio: user.bio,
-            followers: user.followers,
-            following: user.following,
-            posts: populatedPost,
-            bookmarks: user.bookmarks
-        };
-
-        // Log the user object before sending response
-        console.log("User object to be returned:", user);
-
-        return res.cookie("token", token, { httpOnly: true, sameSite: 'strict', maxAge: 24 * 60 * 60 * 1000 })
-            .status(200)
-            .json({ message: `Welcome ${user.userName}`, user, success: true });
-
-    } catch (err) {
-        console.error("Error during login:", err); // Log the full error stack
-        return res.status(500).json({ message: "An error occurred, please try again later", success: false });
+       //populate post here too
+       const populatedPost=await Promise.all(
+        user?.posts.map(async(postId)=>{
+            const getPost=await post.findById(postId)
+            // sirf logged in user ki post chiye 
+            if(getPost?.author.equals(user._id)){
+                
+                return getPost;
+            }
+            return null;
+        })
+       )
+        user={
+            _id:user._id,
+            userName:user.userName,
+            email:user.email,
+            gender:user.gender,
+            profilePicture:user.profilePicture,
+            bio:user.bio,
+            followers:user.followers,
+            following:user.following,
+            posts:populatedPost,
+            bookmarks:user.bookmarks
+            
+        }
+        return res.cookie("token", token, { httpOnly: true, sameSite: 'strict', maxAge: 24 * 60 * 60 * 1000 }).status(200).json({ message: `Welcome ${user.userName}`,user, sucess: true, });
+// res object pehle se hi Express ke through aata hai aur uske andar bohot saare methods hote hain, jaise res.send(), res.json(), res.status(), aur res.cookie().
     }
-};
-
+    catch (err) {
+        console.log(err);
+    }
+}
 
 export const logout = async (req, res) => {
     try {

@@ -32,102 +32,50 @@ useEffect(() => {
         setInput({...input,[e.target.name]:e.target.value})
     }
 
-    // const logInHandler=async (e)=>{
-    //     // to not refresh e.preventdefault
-    //     e.preventDefault();
-    //     // console.log(input)
-    //     try {
-    //         setLoading(true);
-    //         const res=await fetch(`${import.meta.env.VITE_URL}/api/v1/user/logIn`,{
-    //             method:"POST",
-    //             headers:{
-    //                 "Content-Type":"application/json"
-    //             },
-    //             credentials:"include", //toooo much importanat thing to see cookies in cookies section of browser
-    //             body:JSON.stringify(input)
-    //         })
-    //         if(res.ok){
-    //             const data=await res.json()
-    //             // console.log("frontend data of user",data.user);
-    //             dispatch(setAuthUser(data.user))
-    //             toast.success(data.message)
-    //             navigate("/");
-
-    //             // input field clear ho jaega input tags me 
-    //             setInput({
-        
-    //                 email: "",
-    //                 password: "" 
-    //             })
-
-    //         }
-    //         else{
-    //             const errorData = await res.json();
-    //             toast.error(errorData.message);
-    //         }
-               
-            
-    //     } catch (error) {
-    //         console.log(error)
-    //         toast.error("something went wrong ")
-            
-    //     }
-    //     finally{
-    //         setLoading(false);
-    //     }
-    // }
-
-    const logInHandler = async (e) => {
+    const logInHandler=async (e)=>{
         // to not refresh e.preventdefault
         e.preventDefault();
-        console.log("Form submission started", input); // Log the input data before making the request
-    
+        // console.log(input)
         try {
             setLoading(true);
-            console.log("Making login request..."); // Log before making the API request
-    
-            const res = await fetch(`${import.meta.env.VITE_URL}/api/v1/user/logIn`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
+            const res=await fetch(`${import.meta.env.VITE_URL}/api/v1/user/logIn`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
                 },
-                credentials: "include", // To see cookies in the cookies section of the browser
-                body: JSON.stringify(input)
-            });
-    
-            console.log("Response status: ", res.status); // Log the response status
-    
-            if (res.ok) {
-                const data = await res.json();
-                console.log("Frontend received user data: ", data.user); // Log the received user data
-    
-                dispatch(setAuthUser(data.user));
-                toast.success(data.message);
+                credentials:"include", //toooo much importanat thing to see cookies in cookies section of browser
+                body:JSON.stringify(input)
+            })
+            if(res.ok){
+                const data=await res.json()
+                // console.log("frontend data of user",data.user);
+                dispatch(setAuthUser(data.user))
+                toast.success(data.message)
                 navigate("/");
-    
-                // Clear the input fields
+
+                // input field clear ho jaega input tags me 
                 setInput({
+        
                     email: "",
-                    password: ""
-                });
-            } else {
+                    password: "" 
+                })
+
+            }
+            else{
                 const errorData = await res.json();
-                console.log("Error response: ", errorData); // Log the error data from the response
                 toast.error(errorData.message);
             }
-    
+               
+            
         } catch (error) {
-            console.log("Error occurred in login handler: ", error); // Log any errors during the try block
-            toast.error("Something went wrong");
-        } finally {
-            setLoading(false);
-            console.log("Loading state set to false"); // Log after loading state is set to false
+            console.log(error)
+            toast.error("something went wrong ")
+            
         }
-    };
-    
-
-
-
+        finally{
+            setLoading(false);
+        }
+    }
   return (
     <>
     <div className="flex items-center w-screen h-screen justify-center">

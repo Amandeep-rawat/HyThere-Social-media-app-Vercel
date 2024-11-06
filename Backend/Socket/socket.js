@@ -15,7 +15,6 @@ const io = new Server(server, {
     },
     path: '/socket',
     transports: ['websocket', 'polling'],
-    wssEngine:['ws','wss'],
     allowEIO3: true
 })
 

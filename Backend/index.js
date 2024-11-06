@@ -42,8 +42,22 @@ app.get("/", (req, res) => {
 })
 
 
-// yaha pe app.listen ki jagah server.listen karna he due to socket io 
-server.listen(port, () => {
-  connection()
-  console.log(`Example app listening on port ${port}`)
-})
+// // yaha pe app.listen ki jagah server.listen karna he due to socket io 
+// server.listen(port, () => {
+//   connection()
+//   console.log(`Example app listening on port ${port}`)
+// })
+
+
+const startServer = async () => {
+  try {
+    await connection()  // Wait for the MongoDB connection to establish
+    server.listen(port, () => {
+      console.log(`Example app listening on port ${port}`)
+    })
+  } catch (error) {
+    console.error("Error while connecting to the database:", error)
+  }
+}
+
+startServer()

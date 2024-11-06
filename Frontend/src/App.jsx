@@ -39,7 +39,7 @@ const App = () => {
     let socketIo;
 
     if (user) {
-      socketIo = io('http://localhost:3000', {
+      socketIo = io(import.meta.env.VITE_URL, {
         query: { userId: user?._id },
         transports: ['websocket'],
       });

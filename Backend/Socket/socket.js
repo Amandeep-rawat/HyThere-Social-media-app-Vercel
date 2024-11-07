@@ -15,6 +15,7 @@ const io = new Server(server, {
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     },
+    addTrailingSlash: false,
     path: '/socket.io',
     transports: ['websocket', 'polling'],
     allowEIO3: true

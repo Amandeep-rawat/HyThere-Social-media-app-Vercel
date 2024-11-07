@@ -9,7 +9,7 @@ const server = http.createServer(app);
 console.log('frontend url in socket.js is ',process.env.URL)
 const io = new Server(server, {
     cors: {
-        origin: "*",
+        origin: process.env.URL,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     },
@@ -25,6 +25,9 @@ export const getReceiverSocketId=(receiverId)=> userSocketMap[receiverId];
 
 io.on('connection', (socket) => {
     const userId = socket.handshake.query.userId;
+    socket.on('connect_error', (err) => {
+        console.error('Socket connection error:', err);
+      });
     if (userId) { //agr usedid he means logged in he 
         userSocketMap[userId] = socket.id;
         console.log(`user connected: userId =${userId}, socketId=${socket.id}`)

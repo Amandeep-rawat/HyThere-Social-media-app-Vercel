@@ -41,11 +41,12 @@ const App = () => {
     if (user) {
       console.log('backend url',import.meta.env.VITE_URL);
       socketIo = io(import.meta.env.VITE_URL, {
-        path: '/socket',
+        path: '/socket.io',
         query: { userId: user?._id },
         transports: ['websocket', 'polling'],
         reconnection: true,
         reconnectionAttempts: 5,
+        withCredentials: true,
 
 
       });

@@ -9,11 +9,11 @@ const server = http.createServer(app);
 console.log('frontend url in socket.js is ',process.env.URL)
 const io = new Server(server, {
     cors: {
-        origin: process.env.URL,
+        origin: "*",
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     },
-    path: '/socket',
+    path: '/socket.io',
     transports: ['websocket', 'polling'],
     allowEIO3: true
 })

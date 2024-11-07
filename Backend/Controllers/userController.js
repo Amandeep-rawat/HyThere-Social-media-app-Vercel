@@ -86,7 +86,8 @@ export const login = async (req, res) => {
             bookmarks:user.bookmarks
             
         }
-        return res.cookie("token", token, { httpOnly: true, sameSite: 'strict', maxAge: 24 * 60 * 60 * 1000 }).status(200).json({ message: `Welcome ${user.userName}`,user, sucess: true, });
+        return res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', 
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict' , maxAge: 24 * 60 * 60 * 1000 }).status(200).json({ message: `Welcome ${user.userName}`,user, sucess: true, });
 // res object pehle se hi Express ke through aata hai aur uske andar bohot saare methods hote hain, jaise res.send(), res.json(), res.status(), aur res.cookie().
     }
     catch (err) {

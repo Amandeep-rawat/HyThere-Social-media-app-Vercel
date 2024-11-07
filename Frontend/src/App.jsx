@@ -53,6 +53,11 @@ const App = () => {
        // Handle connection errors
     socketIo.on('connect_error', (err) => {
       console.error('Socket connection error:', err);
+       // some additional description, for example the status code of the initial HTTP response
+  console.log(err.description);
+
+  // some additional context, for example the XMLHttpRequest object
+  console.log(err.context);
     });
       dispatch(setSocket(socketIo));
 

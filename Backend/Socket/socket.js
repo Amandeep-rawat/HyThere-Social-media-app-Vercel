@@ -1,10 +1,12 @@
 import { Server } from "socket.io"
 import express from "express";
-import http from "http"
+import https from "https"
+import fs from "fs"
 const app = express();
 
 
-const server = http.createServer(app);
+
+const server = https.createServer(app);
 
 console.log('frontend url in socket.js is ',process.env.URL)
 const io = new Server(server, {
